@@ -20,8 +20,11 @@ You may run **compose.py** file and the network will generate a midi file stored
 
 ## TODO
 -Implement variable pitch offsets/durations
+
 -Implement beginning/end sequences for output generated
+
 -Allow for training using a GPU
+
 -TBD
 
 
