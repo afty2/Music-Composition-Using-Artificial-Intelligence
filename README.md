@@ -17,3 +17,12 @@ Simply run **mcuai_lstm.py** from the command line.
 ## Once the Weights are Generated:
 
 You may run **compose.py** file and the network will generate a midi file stored in the **/output** directory.
+
+## TODO
+-Implement variable pitch offsets/durations
+-Implement beginning/end sequences for output generated
+-Allow for training using a GPU
+-TBD
+
+
+
