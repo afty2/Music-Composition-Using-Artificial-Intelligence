@@ -13,31 +13,31 @@ def compose():
 
     pitchNames = sorted(set(item for item in pitches))
     pitchesLength = len(set(pitches))
-    input, inputNormalized = generatedSequenceFrom(pitches, pitchNames, pitchesLength)
+    _input, inputNormalized = generatedSequenceFrom(pitches, pitchNames, pitchesLength)
     model = generatedNetworkFrom(inputNormalized, pitchesLength)
-    output = outputGeneratedFrom(model, input, pitchNames, pitchesLength)
+    output = outputGeneratedFrom(model, _input, pitchNames, pitchesLength)
     generateMidiFrom(output)
 
 def generatedSequenceFrom(pitches, pitchNames, pitchesLength):
     pitchesToInts = dict((pitch, number) for number, pitch in enumerate(pitchNames))
     length = 100
-    input = []
+    _input = []
     output = []
     for i in range(0, len(pitches) - length, 1):
         inSequence = pitches[i:i + length]
         outSequence = pitches[i + length]
-        input.append([pitchesToInts[char] for char in inSequence])
+        _input.append([pitchesToInts[char] for char in inSequence])
         output.append(pitchesToInts[outSequence])
 
-    numberOfPatterns = len(input)
-    inputNormalized = numpy.reshape(input, (numberOfPatterns, length, 1))
+    numberOfPatterns = len(_input)
+    inputNormalized = numpy.reshape(_input, (numberOfPatterns, length, 1))
     inputNormalized = inputNormalized / float(pitchesLength)
     
-    return (input, inputNormalized)
+    return (_input, inputNormalized)
 
-def generatedNetworkFrom(input, length):
+def generatedNetworkFrom(_input, length):
     model = Sequential()
-    model.add(LSTM(512,input_shape=(input.shape[1], input.shape[2]), return_sequences=True))
+    model.add(LSTM(512,input_shape=(_input.shape[1], _input.shape[2]), return_sequences=True))
     model.add(Dropout(0.3))
     model.add(LSTM(512, return_sequences=True))
     model.add(Dropout(0.3))
@@ -51,10 +51,10 @@ def generatedNetworkFrom(input, length):
                    
     return model
 
-def outputGeneratedFrom(model, input, pitchNames, length):
-    start = numpy.random.randint(0, len(input)-1)
+def outputGeneratedFrom(model, _input, pitchNames, length):
+    start = numpy.random.randint(0, len(_input)-1)
     intsToPitches = dict((number, pitch) for number, pitch in enumerate(pitchNames))
-    pattern = input[start]
+    pattern = _input[start]
     output = []
     
     #NOTE:- range == 500 FOR NOW
@@ -96,8 +96,8 @@ def generateMidiFrom(output):
         #NOTE:- offSet will change
         offSet += 0.5
     
-    midi_stream = stream.Stream(outputPitches)
-    midi_stream.write('midi', fp='output/composition.mid')
+    midiStream = stream.Stream(outputPitches)
+    midiStream.write('midi', fp='output/composition.mid')
 
 if __name__ == '__main__':
     compose()
