@@ -11,9 +11,9 @@ Please ensure the following are installed and accessible by the directory contai
 
 Simply run **mcuai_lstm.py** from the command line.
 
-Ex:
+(MacBook Pro) Ex:
     `python3 ./mcuai_lstm.py`
     
 ## Once the Weights are Generated:
 
-You may run `compose.py` file and the network will generate a midi file stored in the `/output` directory.
+You may run **compose.py** file and the network will generate a midi file stored in the **/output** directory.
